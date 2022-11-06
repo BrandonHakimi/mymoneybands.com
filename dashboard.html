@@ -6,25 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mymoneybands | Dashboard</title>
 </head>
+<script type = "text/javascript">  //This script should contain all js code for now
+                                   //We can place functions in different files later
+var MonthlyIncome;
+var Bills;
+function UserInput(){
+MonthlyIncome = prompt("What is your projected income for this month?");
+Bills = prompt("How much money will you be spending in bills this month?")
+window.alert(`Your projected income is ${MonthlyIncome} and you will be spending ${Bills} dollars on bills.`);
+}
+</script>
+
 <body> 
     <header>
         <h1>MyMoneyBands</h1>
     </header>
     <nav>
         <h2>
-            <button type="button" onclick=test()>Dashboard</button>
-            <script src="dashboard.js"></script>
+            <input type ="button" onclick = "UserInput()" value = "Input Test Button">
             <a href="http://127.0.0.1:5500/dashboard.html">Dashboard</a>
-            <script type="text/javascript" src="dashboard.js"></script>
             <br>
             <a href="http://127.0.0.1:5500/recurring.html">Recurring</a>
-            <script type="text/javascript" src="recurring.js"></script>
             <br>
             <a href="http://127.0.0.1:5500/spending.html">Spending</a>
-            <script type="text/javascript" src="spending.js"></script>
             <br> 
             <a href="http://127.0.0.1:5500/networth.html">Networth</a>
-            <script type="text/javascript" src="networth.js"></script>
         </h2>
     </nav>  
 </body>
