@@ -17,7 +17,6 @@ function AddBill() {
         var BillName = prompt("Who is this Bill due to? (Company or Label)");
         var BillValue = prompt("What is the Payment Amount for this Bill?");
         var BillDate = prompt("What is the date that this Bill is due?");
-        WriteTo(BillName, BillPayment, BillDate);
         alert("You have input a Bill due to " + BillName + "that will charge you " + BillPayment + " due on " + BillDate + ". ");
         var UserContinue = prompt("Do you have another Bill that you would like to enter? 1 for Yes or 0 for No");
         if (UserContinue === 1) {
