@@ -18,30 +18,28 @@ var Temp;
 var BillName;
 var BillValue;
 var BillDate;
-function UserInput(){
-
+function UserInput() {
     MonthlyIncome  = prompt("What is your Projected Income for this month?");
     Budget = prompt("What is your budget for this month?");
-            var bool = false;
-    while (1){
+    var bool = false;
+    while (1) {
         if (bool === false)
-        Continue = prompt("Would you like to input bills for this month? Type yes or no.")
+            Continue = prompt("Would you like to input bills for this month? Please type yes or no.")
         else
-        Continue = prompt("Are there any more bills you wish to input. Type yes or no.")
-        if (Continue === "yes" || Continue === "Yes" || Continue === "YES" || Continue === 1)
-        {
-        bool = 1;
-        BillName = prompt("Who is this Bill due to? (Company or Label)");
-        BillValue = prompt("What is the Payment Amount for this Bill?");
-        TotalBills += BillValue;
-        BillDate = prompt("What is the date that this Bill is due?");
-        window.alert(`You have input a Bill due to ${BillName} that will charge you ${BillValue} dollars due on ${BillDate}.`);
-        }
-        else if (Continue === 0 || Continue === "no" || Continue == "NO" || Continue == "No"){
+            Continue = prompt("Are there any more bills you wish to input? Please type yes or no.")
+        var ContinueCaps = Continue.toUpperCase();
+        if (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1) {
+            bool = 1;
+            BillName = prompt("Who is this Bill due to? (Company or Label)");
+            BillValue = prompt("What is the Payment Amount for this Bill?");
+            TotalBills += BillValue;
+            BillDate = prompt("What is the date that this Bill is due?");
+            window.alert(`You have input a Bill due to ${BillName} that will charge you ${BillValue} dollars due on ${BillDate}.`);
+        } else if (ContinueCaps === "N" || ContinueCaps == "NO" || ContinueCaps == "NAW" || ContinueCaps == "NAH" || Continue === 0) {
             break;
         }
     } 
-window.alert(`Your projected income is ${MonthlyIncome} dollars and you will be spending ${TotalBills} dollars on bills. With a budget of ${Budget} dollars for the month`);
+    window.alert(`Your projected income is ${MonthlyIncome} dollars and you will be spending ${TotalBills} dollars on bills. With a budget of ${Budget} dollars for the month`);
 }
 </script>
 
