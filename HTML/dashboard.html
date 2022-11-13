@@ -18,6 +18,41 @@ var Temp;
 var BillName;
 var BillValue;
 var BillDate;
+var Name;
+function setCookie(cname,cvalue,exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("username");
+  if (user != "") {
+    alert("Welcome again " + user);
+  } else {
+     user = prompt("Please enter your name:","");
+     if (user != "" && user != null) {
+       setCookie("username", user, 30);
+     }
+  }
+}
 function UserInput() {
     MonthlyIncome  = prompt("What is your Projected Income for this month?");
     Budget = prompt("What is your budget for this month?");
@@ -50,7 +85,10 @@ function UserInput() {
     <nav>
         <h2>
             <input type ="button" onclick = "UserInput()" value = "Input Test Button">
+            <br>
             <a href="http://127.0.0.1:5500/HTML/dashboard.html">Dashboard</a>
+            <br>
+            <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
             <br>
             <a href="http://127.0.0.1:5500/HTML/recurring.html">Recurring</a>
             <br>
