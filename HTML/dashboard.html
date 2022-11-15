@@ -8,17 +8,24 @@
 </head>
 <script type = "text/javascript">  //This script should contain all js code for now
                                    //We can place functions in different files later
+
+
+
+var Name;
+
 var MonthlyIncome;
-var TotalBills = "";
 var Budget;
+var TotalBills = 0;
 var MoneyLeft;
 var Choice;
-var Continue;
+//var Continue;
 var Temp;
-var BillName;
-var BillValue;
-var BillDate;
-var Name;
+
+
+var ArrayPositionTracker = 0;
+const InputArray = [];
+
+//*********************************************************************************************************
 
 function setCookie(cname,cvalue,exdays) {
   const d = new Date();
@@ -44,64 +51,115 @@ function getCookie(cname) {
 }
 
 function checkCookie() {
-  let user = getCookie("username");
-  if (user != "") {
-    alert("Welcome again " + user);
-  } else {
-     user = prompt("Please enter your name:","");
-     if (user != "" && user != null) {
-       setCookie("username", user, 30);
-     }
-  }
-  Name = user;
-}
-
-function UserInput() {
-    MonthlyIncome  = prompt("What is your Projected Income for this month?");
-    Budget = prompt("What is your budget for this month?");
-    MoneyLeft = MonthlyIncome - Budget;
-    MoneyLeft -= TotalBills;
-}
-
-function Bills()
-{
-var bool = false;
-    if(MonthlyIncome === undefined){
-        window.alert("No data, please input data.")
+    let user = getCookie("username");
+    if (user != "") {
+    alert("Welcome again, " + user);
+    } else {
+        user = prompt("Please enter your name:","");
+        if (user != "" && user != null) {
+            setCookie("username", user, 30);
+        }
     }
-    else
-    while (1) {
-        if (bool === false)
-            Continue = prompt("Would you like to input bills for this month? Please type yes or no.")
-        else
-            Continue = prompt("Are there any more bills you wish to input? Please type yes or no.")
-        var ContinueCaps = Continue.toUpperCase();
-        if (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1) {
-            bool = true;
-            BillName = prompt("Who is this Bill due to? (Company or Label)");
-            BillValue = prompt("What is the Payment Amount for this Bill?");
-            TotalBills += BillValue;
-            BillDate = prompt("What is the date that this Bill is due?");
-            window.alert(`You have input a Bill due to ${BillName} that will charge you ${BillValue} dollars due on ${BillDate}.`);
-        }
-         else if (ContinueCaps === "N" || ContinueCaps == "NO" || ContinueCaps == "NAW" || ContinueCaps == "NAH" || Continue === 0) {
-            if (bool === false)
-            TotalBills = 0;
-            break;
-        }
-    } 
-    window.alert(`Your projected income is ${MonthlyIncome} dollars and you will be spending ${TotalBills} dollars on bills. With a budget of ${Budget} dollars for the month`);
-
+    Name = user;
 }
 
-function InputSpending()
-{
-      if (Budget === undefined)
-    window.alert("No data, please input data.")
-    else{
-    window.alert(`Hello ${Name}, you have a budget of $${Budget} and a total income of ${MonthlyIncome} which leaves you with $${MoneyLeft} to spend on other things.`);
-        while(1){
-            Continue = prompt("Would you like to input a transaction?")
+//*********************************************************************************************************
+
+function Initialize() {
+    var MonthlyTest = false;
+    while (MonthlyTest === false) {
+        MonthlyIncome  = prompt("What is your Projected Income for this month?");
+        if(isNaN(MonthlyIncome)) {
+            window.alert("Invalid Input, please enter a number.");
+        } else {
+            MonthlyTest = true;
+        }
+    }
+    var BudgetTest = false;
+    while (BudgetTest === false) {
+        Budget = prompt("What is your budget for this month?");
+        if(isNaN(Budget)) {
+            window.alert("Invalid Input, please enter a number.");
+        } else {
+            BudgetTest = true;
+        }
+    }
+    window.alert(`Your projected income for this month is $${MonthlyIncome}. You have set your budget at $${Budget}.`);
+}
+
+function InputBills() {
+    if (MonthlyIncome === undefined) {
+        window.alert("You do not have any data with MyMoneyBands, please select the Initialize button first.");
+    } else {
+        do {
+            var BillName = prompt("Who is this Bill due to? (Company or Label)");
+            var BillValue;
+            var BillTest = false;
+            while (BillTest === false) {
+                BillValue = prompt("What is the Payment Amount for this Bill?");
+                if(isNaN(BillValue)) {
+                    window.alert("Invalid Input, please enter a number.");
+                } else {
+                    BillTest = true;
+                }
+            }
+            var BillDate = prompt("What is the date that this Bill is due?");
+            var RecurringChoice = prompt("Is this Bill a monthly recurring charge?");
+            var RecuringCaps = RecurringChoice.toUpperCase();
+            var RecurringFlag;
+            if (RecuringCaps === "Y" || RecuringCaps === "YE" || RecuringCaps === "YES" || RecuringCaps === "YA" || RecuringCaps === "YEAH" || RecurringChoice === 1) {
+                RecurringFlag = true;
+                window.alert(`You have input a Bill due to ${BillName} that will charge you $${BillValue} due on ${BillDate}. This Bill is a recurring charge.`);
+                InputArray[ArrayPositionTracker] = new Array("BL", BillName, BillValue, BillDate, RecurringFlag);
+                ArrayPositionTracker++;
+            } else {
+                RecurringFlag = false;
+                window.alert(`You have input a Bill due to ${BillName} that will charge you $${BillValue} due on ${BillDate}. This Bill is not a recurring charge.`);
+                InputArray[ArrayPositionTracker] = new Array("BL", BillName, BillValue, BillDate, RecurringFlag);
+                ArrayPositionTracker++;
+            }
+            var Continue = prompt("Are there any more bills you wish to input?");
+            var ContinueCaps = Continue.toUpperCase();
+        } while (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1);
+        //window.alert(`Your projected income is $${MonthlyIncome} and you will be spending $${TotalBills} on bills. You have set a budget of $${Budget} for the month.`);
+    }
+}
+
+function InputTransactions() {
+    if (MonthlyIncome === undefined) {
+        window.alert("You do not have any data with MyMoneyBands, please select the Initialize button first.");
+    } else {
+        do {
+            var TransactionTitle = prompt("What did you spend your money on?");
+            var TransactionCost;
+            var TransactionTest = false;
+            while (TransactionTest === false) {
+                TransactionCost = prompt("How much did this transaction cost?");
+                if(isNaN(TransactionCost)) {
+                    window.alert("Invalid Input, please enter a number.");
+                } else {
+                    TransactionTest = true;
+                }
+            }
+            window.alert(`You have input a Transaction for ${TransactionTitle} that cost you $${TransactionCost}.`);
+            //ARRAY CALL
+            InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL");
+            ArrayPositionTracker++;
+            var Continue = prompt("Are there any more Transactions you would like to input?");
+            var ContinueCaps = Continue.toUpperCase();
+        } while (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1);
+    }
+}
+
+//*********************************************************************************************************
+
+function InputSpending() {
+    if (Budget === undefined) {
+        window.alert("No data, please use Initialize button to set up necessary data for the month first.");
+    } else {
+        //window.alert("Hello ${Name}, you have a budget of $${Budget} and a total income of $${MonthlyIncome} which leaves you with $${MoneyLeft} to spend on other things.");
+        while(1)    {
+            Continue = prompt("Would you like to input a transaction?");
             var ContinueCaps = Continue.toUpperCase();
                 if (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1) {
                     var Transaction = prompt("How much was this transaction?");
@@ -116,6 +174,26 @@ function InputSpending()
         }
     }
 }
+
+function Calculate() {
+    //Calculate functions, which will lead to output/display and financial advisement
+
+    //iterate over InputArray[i][2] for money
+
+    //iterate over InputArray[i][1] for category
+
+
+    window.alert("You are broke.");
+}
+
+function TestArray() {
+    for (var i = 0; i < InputArray.length; i++) {
+        for (var j = 0; j < 5; j++) {
+            window.alert(`${i},${j}: ${InputArray[i][j]}`);
+        }
+    }
+}
+
 </script>
 
 <body> 
@@ -124,17 +202,23 @@ function InputSpending()
     </header>
     <nav>
         <h2>
-            <input type ="button" onclick = "UserInput()" value = "Input Test Button">
+            <h3>Welcome to MyMoneyBands!</h3>
+            <br>
+            <input type ="button" onclick = "Initialize()" value = "Initialize New Month">
+            <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
+            <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
+            <input type ="button" onclick = "InputBills()" value = "Input Bills">
+            <br>
+            <br>
+            <input type ="button" onclick = "TestArray()" value = "TestArray (Print all)">
+            <br>
+            <br>
+            <input type ="button" onclick = "Calculate()" value = "Calculate">
+            <br>
             <br>
             <a href="http://127.0.0.1:5500/HTML/dashboard.html">Dashboard</a>
             <br>
-            <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
-            <br>
             <a href="http://127.0.0.1:5500/HTML/recurring.html">Recurring</a>
-            <br>
-            <input type ="button" onclick = "InputSpending()" value = "Spending Test Button">
-            <br>
-            <input type ="button" onclick = "Bills()" value = "Input Bills Button">
             <br>
             <a href="http://127.0.0.1:5500/HTML/spending.html">Spending</a>
             <br> 
