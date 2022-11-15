@@ -8,8 +8,7 @@
 </head>
 <script type = "text/javascript">  //This script should contain all js code for now
                                    //We can place functions in different files later
-
-
+//import Chart from 'chart.js/auto'
 
 var Name;
 
@@ -20,7 +19,6 @@ var MoneyLeft;
 var Choice;
 //var Continue;
 var Temp;
-
 
 var ArrayPositionTracker = 0;
 const InputArray = [];
@@ -194,9 +192,44 @@ function TestArray() {
     }
 }
 
+
+
+
+/*function TestChart() {
+  const data = [
+    { year: 2010, count: 10 },
+    { year: 2011, count: 20 },
+    { year: 2012, count: 15 },
+    { year: 2013, count: 25 },
+    { year: 2014, count: 22 },
+    { year: 2015, count: 30 },
+    { year: 2016, count: 28 },
+  ];
+
+  new Chart(
+    document.getElementById('acquisitions'),
+    {
+      type: 'bar',
+      data: {
+        labels: data.map(row => row.year),
+        datasets: [
+          {
+            label: 'Acquisitions by year',
+            data: data.map(row => row.count)
+          }
+        ]
+      }
+    }
+  );
+};*/
+
 </script>
 
 <body> 
+    <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <header>
         <h1>MyMoneyBands</h1>
     </header>
@@ -215,6 +248,8 @@ function TestArray() {
             <br>
             <input type ="button" onclick = "Calculate()" value = "Calculate">
             <br>
+            <!--<input type ="button" onclick = "TestChart()" value = "Graph Test Button">!-->
+
             <br>
             <a href="http://127.0.0.1:5500/HTML/dashboard.html">Dashboard</a>
             <br>
