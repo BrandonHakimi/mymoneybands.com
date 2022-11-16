@@ -179,16 +179,20 @@ function InputSpending() {
     }
 }
 
-function Calculate() {
+function CalculateMonthlySum() {
     //Calculate functions, which will lead to output/display and financial advisement
 
     //iterate over InputArray[i][2] for money
 
     //iterate over InputArray[i][1] for category
+    var sum = 0;
+    for (var i = 0; i < InputArray.length; i++){
+        let temp = parseFloat(InputArray[i][2]);
+        if(isNaN(temp) === false)
+            sum += temp;
+    }
 
-
-
-    window.alert("You are broke.");
+    window.alert(sum);
 }
 
 function TestArray() {
@@ -254,7 +258,7 @@ function TestArray() {
             <input type ="button" onclick = "TestArray()" value = "TestArray (Print all)">
             <br>
             <br>
-            <input type ="button" onclick = "Calculate()" value = "Calculate">
+            <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">
             <br>
             <!--<input type ="button" onclick = "TestChart()" value = "Graph Test Button">!-->
 
