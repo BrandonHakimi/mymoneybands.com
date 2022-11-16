@@ -187,8 +187,8 @@ function CalculateMonthlySum() {
     //iterate over InputArray[i][1] for category
     var sum = 0;
     for (var i = 0; i < InputArray.length; i++){
-        let temp = parseFloat(InputArray[i][2]);
         if(isNaN(temp) === false){
+            let temp = parseFloat(InputArray[i][2]);
             sum += temp;
         }
     }
@@ -205,6 +205,11 @@ function TestArray() {
             window.alert("This is a test in the array function");
 }
 
+/*function CalculateCategoryPercent() {
+
+
+
+} */
 
 
 
