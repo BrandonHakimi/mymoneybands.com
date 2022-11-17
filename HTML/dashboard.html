@@ -210,7 +210,7 @@ function TestArray() {
             window.alert("This is a test in the array function");
 }
 
-function CalculateCategoryPercent() {
+function CalculateCategoryPercent() {   
     var percent = 0;
     var sum = 0;
     var category = prompt("Enter the category you would like the percentage calculated for");
@@ -221,13 +221,13 @@ function CalculateCategoryPercent() {
         }
     }
     for (var i = 0; i < InputArray.length; i++){
-        var categoryname = InputArray[i][1]
+        var categoryname = InputArray[i][1];
          if (category === categoryname){
-            percent += (parseFloat(InputArray[i][2])*100)/sum
+            percent = ((parseFloat(InputArray[i][2])*100)/sum).toFixed(2);
          }
              
     }   
-        window.alert(percent)
+        window.alert(`${percent}%`);
 }
 
 function TestChart() {
