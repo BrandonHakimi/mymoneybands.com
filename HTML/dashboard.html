@@ -261,36 +261,42 @@ function CalculateCategoryPercent() {
 };*/
 
 </script>
-
+<header>
+    <div class="menu">
+        <img class="logo" src="/IMGs/Screenshot 2022-11-16 at 11.04.00 PM.png" alt="Logo">
+        <h3>Hi, Scrum</h3>
+        <ul id="menu">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Recurring</a></li>
+            <li><a href="#">Spending</a></li>
+            <li><a href="#">Net Worth</a></li>
+        </ul>
+    </div>
+</header>
 <body> 
-    <div>
-        <canvas id="myChart"></canvas>
-      </div>
+    
       <!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>!-->
-    <header>
-        <div class="title"><h1>MyMoneyBands</h1>
-    </header>
+    <h1>Good evening, Scrum</h1>
     <nav>
+        <br>
+        <input type ="button" onclick = "Initialize()" value = "Initialize">
+        <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
+        <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
+        <input type ="button" onclick = "InputBills()" value = "Input Bills">
+        <br>
+        <br>
+        <input type ="button" onclick = "TestArray()" value = "TestArray (Print all)">
+        <br>
+        <br>
+        <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">
+        <input type ="button" onclick = "CalculateCategoryPercent()" value = "Calculate Monthly Percentage">
+        <br>
+        <br>
+        <!--<input type ="button" onclick = "TestChart()" value = "Graph Test Button">!-->
         <div>
-            <h3>Welcome to MyMoneyBands!</h3></div>
-            <br>
-            <input type ="button" onclick = "Initialize()" value = "Initialize">
-            <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
-            <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
-            <input type ="button" onclick = "InputBills()" value = "Input Bills">
-            <br>
-            <br>
-            <input type ="button" onclick = "TestArray()" value = "TestArray (Print all)">
-            <br>
-            <br>
-            <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">
-            <input type ="button" onclick = "CalculateCategoryPercent()" value = "Calculate Monthly Percentage">
-            <br>
-            <br>
-            <!--<input type ="button" onclick = "TestChart()" value = "Graph Test Button">!-->
-
-         <br>
-        </h2>
+            <canvas id="myChart"></canvas>
+        </div>
+        <br>
     </nav>  
 </body>
 </html>
