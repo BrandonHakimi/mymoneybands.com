@@ -17,9 +17,19 @@ h1{
 h2{
     color: whitesmoke;
     text-align: center;
-    
-
 }
+
+h3{
+    color: white;
+    text-align: center;
+}
+
+/*input[type="button"]{
+    color: darkgreen;
+    font-size: xx-large;
+    background-color: #74bc44;
+    border-width: 0px;
+}*/
 
 .logo{
     width: 200px;
