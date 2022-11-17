@@ -29,6 +29,9 @@ var Temp;
 
 var ArrayPositionTracker = 0;
 const InputArray = [];
+// CategoryArray holds category name, category sum, category percentage
+const CategoryArray = [["Bills", 0, 0], ["Food",0,0], ["Entertainment",0,0], ["Transportation",0,0], ["Education",0,0]];
+
 
 //*********************************************************************************************************
 
@@ -209,7 +212,7 @@ function TestArray() {
 function CalculateCategoryPercent() {
     var percent = 0;
     var sum = 0;
-    var category = prompt("Enter the category you would like the percentage caculated for");
+    var category = prompt("Enter the category you would like the percentage calculated for");
     for (var i = 0; i < InputArray.length; i++){
         let temp = parseFloat(InputArray[i][2]);
         if(isNaN(temp) === false){
@@ -297,6 +300,36 @@ function CalculateCategoryPercent() {
             <canvas id="myChart"></canvas>
         </div>
         <br>
+
     </nav>  
 </body>
 </html>
+
+
+
+<html>  
+<head>  
+<title>dropdown menu using select tab</title>  
+</head>  
+<script>  
+function favTutorial() {  
+var mylist = document.getElementById("myList");  
+document.getElementById("favourite").value = mylist.options[mylist.selectedIndex].text;  
+}  
+</script>  
+  
+<body>  
+<form>  
+<b> Select your category using dropdown list </b>  
+<select id = "myList" onchange = "favTutorial()" >  
+<option> ---Choose Category--- </option>  
+<option> Bills </option>  
+<option> Food </option>  
+<option> Entertainment </option>  
+<option> Transportation </option>  
+</select>  
+<p> Your selected category is:   
+<input type = "text" id = "favourite" size = "20" </p>  
+</form>  
+</body>  
+</html>  
