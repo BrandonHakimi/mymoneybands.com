@@ -164,7 +164,7 @@ function InputSpending() {
     } else {
         window.alert(`Hello ${Name}, you have a budget of $${Budget} and a total income of $${MonthlyIncome} which leaves you with $${MoneyLeft} to spend on other things.`);
         while(1)    {
-            Continue = prompt("Would you like to input a transaction?");
+            var Continue = prompt("Would you like to input a transaction?");
             var ContinueCaps = Continue.toUpperCase();
                 if (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1) {
                     var Transaction = prompt("How much was this transaction?");
@@ -188,8 +188,8 @@ function CalculateMonthlySum() {
     //iterate over InputArray[i][1] for category
     var sum = 0;
     for (var i = 0; i < InputArray.length; i++){
+        let temp = parseFloat(InputArray[i][2]);
         if(isNaN(temp) === false){
-            let temp = parseFloat(InputArray[i][2]);
             sum += temp;
         }
     }
@@ -205,6 +205,29 @@ function TestArray() {
     }
             window.alert("This is a test in the array function");
 }
+
+function CalculateCategoryPercent() {
+    var percent = 0;
+    var sum = 0;
+    var category = prompt("Enter the category you would like the percentage caculated for");
+    for (var i = 0; i < InputArray.length; i++){
+        let temp = parseFloat(InputArray[i][2]);
+        if(isNaN(temp) === false){
+            sum += temp;
+        }
+    }
+    for (var i = 0; i < InputArray.length; i++){
+        var categoryname = InputArray[i][1]
+         if (category === categoryname){
+            percent += (parseFloat(InputArray[i][2])*100)/sum
+         }
+             
+    }   
+        window.alert(percent)
+}
+
+
+
 
 
 
@@ -261,10 +284,12 @@ function TestArray() {
             <br>
             <br>
             <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">
+            <input type ="button" onclick = "CalculateCategoryPercent()" value = "Calculate Monthly Percentage"
+            <br>
             <br>
             <!--<input type ="button" onclick = "TestChart()" value = "Graph Test Button">!-->
 
-            <br>
+         <br>
         </h2>
     </nav>  
 </body>
