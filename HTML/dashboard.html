@@ -231,23 +231,28 @@ function CalculateCategoryPercent() {
 }
 
 function TestChart() {
-// set the data
-var data = [
-    {x: "Bills", value: 223553265},
-    {x: "Food", value: 38929319},
-    {x: "Entertainment", value: 2932248},
-    {x: "Transportation", value: 14674252},
-    {x: "Education", value: 540013}
-];
-// create the chart
-var chart = anychart.pie();
-// set the chart title
-chart.title("Your spending by category");
-// add the data
-chart.data(data);
-// display the chart in the container
-chart.container('container');
-chart.draw();
+    let testvar1=10;
+    let testvar2=15;
+    let testvar3=5;
+    let testvar4=12;
+    let testvar5=4;
+    // set the data
+    var data = [
+    {x: "Bills", value: testvar1},
+    {x: "Food", value: testvar2},
+    {x: "Entertainment", value: testvar3},
+    {x: "Transportation", value: testvar4},
+    {x: "Education", value: testvar5}
+    ];
+    // create the chart
+    var chart = anychart.pie();
+    // set the chart title
+    chart.title("Your spending by category");
+    // add the data
+    chart.data(data);
+    // display the chart in the container
+    chart.container('container');
+    chart.draw();
 }
 
 
