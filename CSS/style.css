@@ -3,6 +3,10 @@ body{
     font-family: 'roboto', sans-serif;
 }
 
+.title{
+    color: white;
+}
+
 .signup-box{
     width: 360px;
     height: 620px;
