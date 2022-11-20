@@ -31,7 +31,6 @@ var Temp;
 var MonthlySum;
 
 var ArrayPositionTracker = 0;
-UpToDateCalculation = 0;
 const InputArray = [];
 // CategoryArray holds category name, category sum, category percentage
 const CategoryArray = [["Bills", 0, 0], ["Food", 0, 0], ["Entertainment", 0, 0], ["Transportation", 0, 0], ["Education", 0, 0], ["Other", 0, 0]];
@@ -220,7 +219,6 @@ function CalculateMonthlySum() {
         if(isNaN(temp) === false){
             MonthlySum += temp;
         }
-        UpToDateCalculation++;
     }
     window.alert(MonthlySum);
 }
@@ -232,7 +230,7 @@ function CalculateCategorySums() {
         for (var j = 0; j < InputArray.length; j++) {
             if (CategoryArray[i][0] === InputArray[j][5]) {
                 let temp = parseFloat(InputArray[j][2]);
-                if(isNaN(temp) === false){
+                if (isNaN(temp) === false) {
                     CategorySum += temp;
                 }
                 CategoryArray[i][1] += (parseFloat(InputArray[i][2]));
@@ -242,51 +240,6 @@ function CalculateCategorySums() {
     }
 }
 
-<<<<<<< Updated upstream
-function CalculateCategoryPercent() {   
-    var percent = 0;
-    var sum = 0;
-    var category = prompt("Enter the category you would like the percentage calculated for");
-    for (var i = 0; i < InputArray.length; i++){
-        let temp = parseFloat(InputArray[i][2]);
-        if(isNaN(temp) === false){
-            sum += temp;
-        }
-    }
-    for (var i = 0; i < InputArray.length; i++){
-        var categoryname = InputArray[i][1];
-         if (category === categoryname){
-            percent = ((parseFloat(InputArray[i][2])*100)/sum).toFixed(2);
-         }
-             
-    }   
-        window.alert(`${percent}%`);
-}
-
-function TestChart() {
-    let testvar1=10;
-    let testvar2=15;
-    let testvar3=5;
-    let testvar4=12;
-    let testvar5=4;
-    // set the data
-    var data = [
-    {x: "Bills", value: testvar1},
-    {x: "Food", value: testvar2},
-    {x: "Entertainment", value: testvar3},
-    {x: "Transportation", value: testvar4},
-    {x: "Education", value: testvar5}
-    ];
-    // create the chart
-    var chart = anychart.pie();
-    // set the chart title
-    chart.title("Your spending by category");
-    // add the data
-    chart.data(data);
-    // display the chart in the container
-    chart.container('container');
-    chart.draw();
-=======
 function CalculateCategoryPercentages() {
     for (var i = 0; i < CategoryArray.length; i++) {
         CategoryArray[i][2] = Math.floor((parseFloat(CategoryArray[i][1])/parseFloat(MonthlySum))*100);
@@ -325,14 +278,7 @@ chart.data(data);
 // display the chart in the container
 chart.container('container');
 chart.draw();
->>>>>>> Stashed changes
 }
-
-
-
-
-
-
 
 </script>
 <header>
@@ -369,10 +315,6 @@ chart.draw();
         <input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">
         <br>
         <br>
-        <!-- <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">-->
-        <!-- <input type ="button" onclick = "CalculateCategorySums()" value = "Calculate Monthly Sums">-->
-        <!-- <input type ="button" onclick = "CalculateCategoryPercentages()" value = "Calculate Monthly Percentages">-->
-        <!-- <input type ="button" onclick = "CalculateCategoryPercent()" value = "Calculate Monthly Percentage">-->
         <br>
         <input type ="button" onclick = "DisplayGraph()" value = "Display Spending in Pie Chart Graph">
         <br>
