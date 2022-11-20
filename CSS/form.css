@@ -46,6 +46,12 @@ input[type="button"]{
     background-color: #74bc44;
     color: white;
     font-size: 18px;
+    
+}
+
+input[type="button"]:hover{
+    background-color: green;
+    cursor: pointer;
 }
 
 .signup-box{

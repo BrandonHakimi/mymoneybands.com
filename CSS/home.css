@@ -24,16 +24,15 @@ h3{
     text-align: center;
 }
 
-/*input[type="button"]{
-    color: darkgreen;
-    font-size: xx-large;
-    background-color: #74bc44;
-    border-width: 0px;
-}*/
+input[type="button"]:hover{
+    background-color: whitesmoke;
+    cursor: pointer;
+}
 
 .logo{
     width: 200px;
     height: auto;
+    margin-left: 10px;
 }
 
 .menu{
@@ -44,5 +43,5 @@ h3{
     border-bottom-width: 0px;
     position: fixed;
     left: 0;
-    width: 200px;
+    width: 225px;
 }
