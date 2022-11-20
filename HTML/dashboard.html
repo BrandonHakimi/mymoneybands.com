@@ -28,13 +28,15 @@ var Choice;
 //var Continue;
 var Temp;
 
+var MonthlySum;
+
 var ArrayPositionTracker = 0;
+UpToDateCalculation = 0;
 const InputArray = [];
 // CategoryArray holds category name, category sum, category percentage
-const CategoryArray = [["Bills", 0, 0], ["Food",0,0], ["Entertainment",0,0], ["Transportation",0,0], ["Education",0,0]];
+const CategoryArray = [["Bills", 0, 0], ["Food", 0, 0], ["Entertainment", 0, 0], ["Transportation", 0, 0], ["Education", 0, 0], ["Other", 0, 0]];
 
-
-//*********************************************************************************************************
+//********************************************************************************************************************************************************
 
 function setCookie(cname,cvalue,exdays) {
   const d = new Date();
@@ -72,7 +74,7 @@ function checkCookie() {
     Name = user;
 }
 
-//*********************************************************************************************************
+//********************************************************************************************************************************************************
 
 function Initialize() {
     FirstName = prompt("What is your first name?");
@@ -121,12 +123,12 @@ function InputBills() {
             if (RecuringCaps === "Y" || RecuringCaps === "YE" || RecuringCaps === "YES" || RecuringCaps === "YA" || RecuringCaps === "YEAH" || RecurringChoice === 1) {
                 RecurringFlag = true;
                 window.alert(`You have input a Bill due to ${BillName} that will charge you $${BillValue} due on ${BillDate}. This Bill is a recurring charge.`);
-                InputArray[ArrayPositionTracker] = new Array("BL", BillName, BillValue, BillDate, RecurringFlag);
+                InputArray[ArrayPositionTracker] = new Array("BL", BillName, BillValue, BillDate, RecurringFlag, "Bills");
                 ArrayPositionTracker++;
             } else {
                 RecurringFlag = false;
                 window.alert(`You have input a Bill due to ${BillName} that will charge you $${BillValue} due on ${BillDate}. This Bill is not a recurring charge.`);
-                InputArray[ArrayPositionTracker] = new Array("BL", BillName, BillValue, BillDate, RecurringFlag);
+                InputArray[ArrayPositionTracker] = new Array("BL", BillName, BillValue, BillDate, RecurringFlag, "Bills");
                 ArrayPositionTracker++;
             }
             var Continue = prompt("Are there any more bills you wish to input?");
@@ -151,8 +153,37 @@ function InputTransactions() {
                     TransactionTest = true;
                 }
             }
+            var TRCategoryTest = false;
+            while (TRCategoryTest === false) {
+                var TRCategory = prompt("Which category does this Transaction belong to?\n\tType 1 for Food\n\tType 2 for Entertainment\n\tType 3 for Transportation\n\tType 4 for Education\n\tType 5 for Other");
+                var TRCategoryInt = parseFloat(TRCategory);
+                switch (TRCategoryInt) {
+                case 1:
+                    InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL", "Food");
+                    TRCategoryTest = true;
+                    break;
+                case 2: 
+                    InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL", "Entertainment");
+                    TRCategoryTest = true;
+                    break;
+                case 3:
+                    InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL", "Transportation");
+                    TRCategoryTest = true;
+                    break;
+                case 4:
+                    InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL", "Education");
+                    TRCategoryTest = true;
+                    break;
+                case 5:
+                    InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL", "Other");
+                    TRCategoryTest = true;
+                    break;
+                default:
+                    window.alert("Invalid Input, please enter a valid number.");
+                    break;
+                }
+            }
             window.alert(`You have input a Transaction for ${TransactionTitle} that cost you $${TransactionCost}.`);
-            InputArray[ArrayPositionTracker] = new Array("TR", TransactionTitle, TransactionCost, "NULL", "NULL");
             ArrayPositionTracker++;
             var Continue = prompt("Are there any more Transactions you would like to input?");
             var ContinueCaps = Continue.toUpperCase();
@@ -160,56 +191,58 @@ function InputTransactions() {
     }
 }
 
-//*********************************************************************************************************
+//********************************************************************************************************************************************************
 
-function InputSpending() {
-    if (Budget === undefined) {
-        window.alert("No data, please use Initialize button to set up necessary data for the month first.");
-    } else {
-        window.alert(`Hello ${Name}, you have a budget of $${Budget} and a total income of $${MonthlyIncome} which leaves you with $${MoneyLeft} to spend on other things.`);
-        while(1)    {
-            var Continue = prompt("Would you like to input a transaction?");
-            var ContinueCaps = Continue.toUpperCase();
-                if (ContinueCaps === "Y" || ContinueCaps === "YE" || ContinueCaps === "YES" || ContinueCaps === "YA" || ContinueCaps === "YEAH" || Continue === 1) {
-                    var Transaction = prompt("How much was this transaction?");
-                    if(isNaN(Transaction))
-                         window.alert("Invalid Input, please enter a number.");
-                        else
-                        MoneyLeft -= Transaction;
-                }
-            else if (ContinueCaps === "N" || ContinueCaps == "NO" || ContinueCaps == "NAW" || ContinueCaps == "NAH" || Continue === 0) {
-                break;
-            }
-        }
-    }
-}
-
-function CalculateMonthlySum() {
-    //Calculate functions, which will lead to output/display and financial advisement
-
-    //iterate over InputArray[i][2] for money
-
-    //iterate over InputArray[i][1] for category
-    var sum = 0;
-    for (var i = 0; i < InputArray.length; i++){
-        let temp = parseFloat(InputArray[i][2]);
-        if(isNaN(temp) === false){
-            sum += temp;
-        }
-    }
-
-    window.alert(sum);
-}
-
-function TestArray() {
+function TestInputArray() {
     for (var i = 0; i < InputArray.length; i++) {
-        for (var j = 0; j < 5; j++) {
+        for (var j = 0; j < 6; j++) {
             window.alert(`${i},${j}: ${InputArray[i][j]}`);
         }
     }
-            window.alert("This is a test in the array function");
 }
 
+function TestCategoryArray() {
+    for (var i = 0; i < CategoryArray.length; i++) {
+        for (var j = 0; j < 3; j++) {
+            window.alert(`${i},${j}: ${CategoryArray[i][j]}`);
+        }
+    }
+}
+
+//********************************************************************************************************************************************************
+
+function CalculateMonthlySum() {
+    //iterate over InputArray[i][2] for money
+    //iterate over InputArray[i][1] for category
+    MonthlySum = 0;
+    for (var i = 0; i < InputArray.length; i++){
+        let temp = parseFloat(InputArray[i][2]);
+        if(isNaN(temp) === false){
+            MonthlySum += temp;
+        }
+        UpToDateCalculation++;
+    }
+    window.alert(MonthlySum);
+}
+
+function CalculateCategorySums() {
+    var CategorySum;
+    for (var i = 0; i < CategoryArray.length; i++) {
+        CategorySum = 0;
+        for (var j = 0; j < InputArray.length; j++) {
+            if (CategoryArray[i][0] === InputArray[j][5]) {
+                let temp = parseFloat(InputArray[j][2]);
+                if(isNaN(temp) === false){
+                    CategorySum += temp;
+                }
+                CategoryArray[i][1] += (parseFloat(InputArray[i][2]));
+            }
+        }
+        CategoryArray[i][1] = CategorySum;
+    }
+}
+
+<<<<<<< Updated upstream
 function CalculateCategoryPercent() {   
     var percent = 0;
     var sum = 0;
@@ -253,6 +286,46 @@ function TestChart() {
     // display the chart in the container
     chart.container('container');
     chart.draw();
+=======
+function CalculateCategoryPercentages() {
+    for (var i = 0; i < CategoryArray.length; i++) {
+        CategoryArray[i][2] = Math.floor((parseFloat(CategoryArray[i][1])/parseFloat(MonthlySum))*100);
+    }
+}
+
+function Calculate() {
+    CalculateMonthlySum();
+    CalculateCategorySums();
+    CalculateCategoryPercentages();
+}
+
+function DisplayGraph() {   
+    Calculate();
+    Chart();
+}
+
+//********************************************************************************************************************************************************
+
+function Chart() {
+// set the data
+var data = [
+    {x: "Bills", value: CategoryArray[0][2]},
+    {x: "Food", value: CategoryArray[1][2]},
+    {x: "Entertainment", value: CategoryArray[2][2]},
+    {x: "Transportation", value: CategoryArray[3][2]},
+    {x: "Education", value: CategoryArray[4][2]},
+    {x: "Other", value: CategoryArray[5][2]}
+];
+// create the chart
+var chart = anychart.pie();
+// set the chart title
+chart.title("Your Monthly Spending Organized by Category:");
+// add the data
+chart.data(data);
+// display the chart in the container
+chart.container('container');
+chart.draw();
+>>>>>>> Stashed changes
 }
 
 
@@ -292,13 +365,16 @@ function TestChart() {
         <input type ="button" onclick = "InputBills()" value = "Input Bills">
         <br>
         <br>
-        <input type ="button" onclick = "TestArray()" value = "TestArray (Print all)">
+        <input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">
+        <input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">
         <br>
         <br>
-        <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">
-        <input type ="button" onclick = "CalculateCategoryPercent()" value = "Calculate Monthly Percentage">
+        <!-- <input type ="button" onclick = "CalculateMonthlySum()" value = "Calculate Monthly Sum">-->
+        <!-- <input type ="button" onclick = "CalculateCategorySums()" value = "Calculate Monthly Sums">-->
+        <!-- <input type ="button" onclick = "CalculateCategoryPercentages()" value = "Calculate Monthly Percentages">-->
+        <!-- <input type ="button" onclick = "CalculateCategoryPercent()" value = "Calculate Monthly Percentage">-->
         <br>
-        <input type ="button" onclick = "TestChart()" value = "Test graph button">
+        <input type ="button" onclick = "DisplayGraph()" value = "Display Spending in Pie Chart Graph">
         <br>
         <div id="container" style="width: 100%; height: 100%"></div>  <!--graph code-->
         <br>
