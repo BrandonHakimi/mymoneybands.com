@@ -25,7 +25,6 @@ var Budget;
 var TotalBills = 0;
 var MoneyLeft;
 var Choice;
-//var Continue;
 var Temp;
 
 var MonthlySum;
@@ -39,8 +38,17 @@ const PastSixMonths = [[500,200,100,300,1000,275],   //month 1
                        [500,150,300,300,50,50],      //month 5
                        [500,75,100,250,1000,20]];    //month 6
 const InputArray = [];
-// CategoryArray holds category name, category sum, category percentage
+    //iterate over InputArray[i][0] for TR or BL for input type
+    //iterate over InputArray[i][1] for transaction item/bill name
+    //iterate over InputArray[i][2] for money
+    //iterate over InputArray[i][3] for dates for bills specifically
+    //iterate over InputArray[i][4] for recurring flag for bills specifically
+    //iterate over InputArray[i][5] for category it belongs to
+
 const CategoryArray = [["Bills", 0, 0], ["Food", 0, 0], ["Entertainment", 0, 0], ["Transportation", 0, 0], ["Education", 0, 0], ["Other", 0, 0]];
+    //iterate over CategoryArray[i][0] for category title
+    //iterate over CategoryArray[i][1] for category sum
+    //iterate over CategoryArray[i][2] for category percentage
 
 //********************************************************************************************************************************************************
 
@@ -218,8 +226,6 @@ function TestCategoryArray() {
 //********************************************************************************************************************************************************
 
 function CalculateMonthlySum() {
-    //iterate over InputArray[i][2] for money
-    //iterate over InputArray[i][1] for category
     MonthlySum = 0;
     for (var i = 0; i < InputArray.length; i++){
         let temp = parseFloat(InputArray[i][2]);
@@ -240,7 +246,6 @@ function CalculateCategorySums() {
                 if (isNaN(temp) === false) {
                     CategorySum += temp;
                 }
-                CategoryArray[i][1] += (parseFloat(InputArray[i][2]));
             }
         }
         CategoryArray[i][1] = CategorySum;
