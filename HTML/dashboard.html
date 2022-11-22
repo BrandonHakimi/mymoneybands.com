@@ -25,6 +25,7 @@ var Budget;
 var TotalBills = 0;
 var MoneyLeft;
 var Choice;
+var PastDisplayed = false;
 //var Continue;
 var Temp;
 
@@ -40,7 +41,12 @@ const PastSixMonths = [[500,200,100,300,1000,275],   //month 1
                        [500,75,100,250,1000,20]];    //month 6
 const InputArray = [];
 // CategoryArray holds category name, category sum, category percentage
-const CategoryArray = [["Bills", 0, 0], ["Food", 0, 0], ["Entertainment", 0, 0], ["Transportation", 0, 0], ["Education", 0, 0], ["Other", 0, 0]];
+const CategoryArray = [["Bills", 0, 0], 
+                       ["Food", 0, 0], 
+                       ["Entertainment", 0, 0], 
+                       ["Transportation", 0, 0], 
+                       ["Education", 0, 0], 
+                       ["Other", 0, 0]];
 
 //********************************************************************************************************************************************************
 
@@ -289,28 +295,32 @@ chart.draw();
 
 function PastChart(Stuff)
 {
-    for (var i = 0; i < Stuff.length; i++)
+    if (PastDisplayed===false)
     {
-        var data = [
-        {x: "Bills", value: Stuff[i][0]},
-        {x: "Food", value: Stuff[i][1]},
-        {x: "Entertainment", value: Stuff[i][2]},
-        {x: "Transportation", value: Stuff[i][3]},
-        {x: "Education", value: Stuff[i][4]},
-        {x: "Other", value: Stuff[i][5]}
-        ];
-        // create the chart
-        var chart = anychart.pie();
-        // set the chart title
-        if (i===0)
-        chart.title("Your Monthly Spending for last Month.");
-        else
-        chart.title(`Your Monthly Spending for ${i + 1} Months ago.`);
-        // add the data
-        chart.data(data);
-        // display the chart in the container
-        chart.container('Month' + i);
-        chart.draw();
+        for (var i = 0; i < Stuff.length; i++)
+        {
+            var data = [
+            {x: "Bills", value: Stuff[i][0]},
+            {x: "Food", value: Stuff[i][1]},
+            {x: "Entertainment", value: Stuff[i][2]},
+            {x: "Transportation", value: Stuff[i][3]},
+            {x: "Education", value: Stuff[i][4]},
+            {x: "Other", value: Stuff[i][5]}
+            ];
+            // create the chart
+            var chart = anychart.pie();
+            // set the chart title
+            if (i===0)
+            chart.title("Your Monthly Spending for last Month.");
+            else
+            chart.title(`Your Monthly Spending for ${i + 1} Months ago.`);
+            // add the data
+            chart.data(data);
+            // display the chart in the container
+            chart.container('Month' + i);
+            chart.draw();
+        }
+        PastDisplayed = true;
     }
 }
 
