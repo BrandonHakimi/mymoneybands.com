@@ -25,6 +25,7 @@ var Budget;
 var TotalBills = 0;
 var MoneyLeft;
 var Choice;
+var PastDisplayed = false;
 var Temp;
 
 var MonthlySum;
@@ -45,7 +46,12 @@ const InputArray = [];
     //iterate over InputArray[i][4] for recurring flag for bills specifically
     //iterate over InputArray[i][5] for category it belongs to
 
-const CategoryArray = [["Bills", 0, 0], ["Food", 0, 0], ["Entertainment", 0, 0], ["Transportation", 0, 0], ["Education", 0, 0], ["Other", 0, 0]];
+    const CategoryArray = [["Bills", 0, 0], 
+                       ["Food", 0, 0], 
+                       ["Entertainment", 0, 0], 
+                       ["Transportation", 0, 0], 
+                       ["Education", 0, 0], 
+                       ["Other", 0, 0]];
     //iterate over CategoryArray[i][0] for category title
     //iterate over CategoryArray[i][1] for category sum
     //iterate over CategoryArray[i][2] for category percentage
@@ -294,28 +300,32 @@ chart.draw();
 
 function PastChart(Stuff)
 {
-    for (var i = 0; i < Stuff.length; i++)
+    if (PastDisplayed===false)
     {
-        var data = [
-        {x: "Bills", value: Stuff[i][0]},
-        {x: "Food", value: Stuff[i][1]},
-        {x: "Entertainment", value: Stuff[i][2]},
-        {x: "Transportation", value: Stuff[i][3]},
-        {x: "Education", value: Stuff[i][4]},
-        {x: "Other", value: Stuff[i][5]}
-        ];
-        // create the chart
-        var chart = anychart.pie();
-        // set the chart title
-        if (i===0)
-        chart.title("Your Monthly Spending for last Month.");
-        else
-        chart.title(`Your Monthly Spending for ${i + 1} Months ago.`);
-        // add the data
-        chart.data(data);
-        // display the chart in the container
-        chart.container('Month' + i);
-        chart.draw();
+        for (var i = 0; i < Stuff.length; i++)
+        {
+            var data = [
+            {x: "Bills", value: Stuff[i][0]},
+            {x: "Food", value: Stuff[i][1]},
+            {x: "Entertainment", value: Stuff[i][2]},
+            {x: "Transportation", value: Stuff[i][3]},
+            {x: "Education", value: Stuff[i][4]},
+            {x: "Other", value: Stuff[i][5]}
+            ];
+            // create the chart
+            var chart = anychart.pie();
+            // set the chart title
+            if (i===0)
+            chart.title("Your Monthly Spending for last Month.");
+            else
+            chart.title(`Your Monthly Spending for ${i + 1} Months ago.`);
+            // add the data
+            chart.data(data);
+            // display the chart in the container
+            chart.container('Month' + i);
+            chart.draw();
+        }
+        PastDisplayed = true;
     }
 }
 
@@ -379,31 +389,3 @@ function PastChart(Stuff)
 </body>
 </html>
 
-
-
-<html>  
-<head>  
-<title>dropdown menu using select tab</title>  
-</head>  
-<script>  
-function favTutorial() {  
-var mylist = document.getElementById("myList");  
-document.getElementById("favourite").value = mylist.options[mylist.selectedIndex].text;  
-}  
-</script>  
-  
-<body>  
-<form>  
-<b> Select your category using dropdown list </b>  
-<select id = "myList" onchange = "favTutorial()" >  
-<option> ---Choose Category--- </option>  
-<option> Bills </option>  
-<option> Food </option>  
-<option> Entertainment </option>  
-<option> Transportation </option>  
-</select>  
-<p> Your selected category is:   
-<input type = "text" id = "favourite" size = "20"></p>  
-</form>  
-</body>  
-</html>  
