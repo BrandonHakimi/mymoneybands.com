@@ -408,7 +408,7 @@ function FinancialAdvise(){
     {
         var HighestAmount = FindHighestAmount();
         var HighestCategory = FindHighestCategory(HighestAmount);
-    window.alert(`You're broke, but you can improve. Youre highest spending is $${HighestAmount} among the ${HighestCategory} category.`);
+    window.alert(`You're broke, but you can improve. Your highest spending is $${HighestAmount}, in the ${HighestCategory} category.`);
      if (HighestCategory === "Food")
         window.alert(`In the future, consider eating out less.`)
     else if (HighestCategory === "Entertainment")
@@ -421,8 +421,159 @@ function FinancialAdvise(){
         window.alert("In the future, try spending less money of miscellaneous expenses.");
     }
 }
-    
 
+//********************************************************************************************************************************************************
+
+/*
+    This function exists to 'build' structs, so to speak.
+    The entire recurring charges subsystem will rely on this faux data type.
+    I've done this to homogenize the data that enters the system into a simple, stripped-down format.
+*/
+
+function makeCharge(list){
+    var list = list.split(' ');
+    var count = list.length;
+    function structBuilder(){
+        for (var i=0; i<count; i++){
+            this[list[i]] = arguments[i];
+        }
+    }return structBuilder;
+}
+
+/*
+    Declaring a newCharge creates a new instance of the struct discussed earlier!
+    We can pass existing information into a new struct, or just insert our own manually.
+*/
+
+var newCharge = makeCharge("chg_amt chg_recipient chg_date chg_recur");
+
+// Sandbag charges that can be used for rapid testing purposes
+var testcharge0 = new newCharge(500, 'ralphs', '2022-11-28', false);
+var testcharge1 = new newCharge(20, 'netflix', '2022-08-03', false);
+var testcharge2 = new newCharge(20, 'netflix', '2022-09-03', false);
+
+/*
+    This set of functions is organized spaghetti, just collapse them.
+    They're helper functions that return the difference in time between dates.
+    This is used to scan the possible recurrent intervals!
+*/
+
+function offsetSeconds(d1,d2){
+    let milliseconds = d2-d1;
+    let seconds = Math.floor((d2-d1)/1000)
+    return seconds;
+}
+
+function offsetMinutes(d1,d2){
+     let seconds = offsetSeconds(d1,d2);
+     let minutes = Math.floor(seconds/60);
+     return minutes;
+}
+
+function offsetHours(d1,d2){
+    let minutes = offsetMinutes(d1,d2);
+    let hours = Math.floor(minutes/60);
+    return hours;
+}
+
+function offsetDays(d1,d2){
+    let hours = offsetHours(d1,d2);
+    let days = Math.floor(hours/24);
+    return days;
+}
+
+function offsetWeeks(d1,d2){
+    let days = offsetDays(d1,d2);
+    let weeks = Math.floor(days/7);
+    return weeks;
+}
+
+function offsetYears(d1,d2){
+    let ydate1 = new Date(d1);
+    let ydate2 = new Date(d2);
+    let years = ydate2.getFullYear() - ydate1.getFullYear();
+    return years;
+}
+
+function offsetMonths(d1,d2){
+    let mdate1 = new Date(d1);
+    let mdate2 = new Date(d2);
+    let years = offsetYears(d1,d2);
+    let countmonths = (years*12) + (mdate2.getMonth() - mdate1.getMonth());
+    return countmonths;
+}
+
+/*
+    This function will run through the possible situations where a charge counts as recurring.
+        - Day is offset by 1, month matches, year matches [DAILY]
+            - offsetDays == 1
+        - Day is offset by 7, month matches, year matches [WEEKLY]
+            - offsetDays == 7
+        - Day is offset by 14, month matches, year matches [BIWEEKLY]
+            - offsetDays == 14
+        - Day matches, month is offset by 1, year matches [MONTHLY]
+            - offsetMonths == 1
+        - Day matches, month is offset by 3, year matches [QUARTERLY]
+            - offsetMonths == 3
+        - Day matches, month is offset by 6, year matches [BIYEARLY]
+            - offsetMonths == 6
+        - Day matches, month matches, year is offset by 1 [YEARLY]
+            - offsetYears == 1
+*/
+
+function compareDates(cdate1, cdate2){
+    let date1 = new Date(cdate1.chg_date);
+    let date2 = new Date(cdate2.chg_date);
+    
+    date1 = date1.getTime();
+    date2 = date2.getTime();
+    let tempdate = 0;
+
+    // This code will ensure that date1 is always the earlier date.
+    if (date1 > date2){
+        tempdate = date1;
+        date1 = date2;
+        date2 = tempdate;
+    }
+
+    let dayDiff     = offsetDays(date1, date2);
+    let weekDiff    = offsetWeeks(date1,date2);
+    let yearDiff    = offsetYears(date1,date2);
+    let monthDiff   = offsetMonths(date1,date2);
+
+    // WORKS UP TO HERE
+    if (
+        (dayDiff==1 && weekDiff==0 && monthDiff==0 && yearDiff==0) || //daily
+        (weekDiff==1 && monthDiff==0 && yearDiff==0)               || //weekly
+        (weekDiff==2 && monthDiff==0 && yearDiff==0)               || //biweekly
+        (monthDiff==1 && yearDiff==0)                              || //monthly
+        (monthDiff==3 && yearDiff==0)                              || //quarterly
+        (monthDiff==6 && yearDiff==0)                              || //biyearly
+        (yearDiff==1)                                                  //yearly
+        ) return true;
+    else return false
+}
+
+function compareCharges(charge1, charge2){
+    let datesCheck = compareDates(charge1, charge2);
+
+    if (charge1.chg_recipient == charge2.chg_recipient){
+        if (datesCheck == true){
+            if (charge1.chg_amt == charge2.chg_amt){
+                return true;
+            }else return false;
+        }else return false
+    }else return false;
+}
+function recurringMain(){
+    let result = compareCharges(testcharge1, testcharge2); // change these to desired charges you wish to evaluate
+    testcharge1.chg_recur = true;
+    testcharge2.chg_recur = true;
+
+    window.alert(testcharge1.chg_recur);
+}
+
+//********************************************************************************************************************************************************
 
 </script>
 <header>
@@ -453,6 +604,7 @@ function FinancialAdvise(){
         <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
         <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
         <input type ="button" onclick = "InputBills()" value = "Input Bills">
+        <input type ="button" onclick = "recurringMain()" value = "RecurTest">
         <br>
         <br>
         <input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">
