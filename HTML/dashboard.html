@@ -27,6 +27,8 @@ var MoneyLeft;
 var Choice;
 var PastDisplayed = false;
 var Temp;
+var set = false;
+var MonthDisplayed = false;
 
 var MonthlySum;
 
@@ -101,7 +103,7 @@ function Initialize() {
     LastName = prompt("What is your last name?");
     var MonthlyTest = false;
     while (MonthlyTest === false) {
-        MonthlyIncome  = prompt("What is your Projected Income for this month?");
+        MonthlyIncome = prompt("What is your Projected Income for this month?");
         if(isNaN(MonthlyIncome)) {
             window.alert("Invalid Input, please enter a number.");
         } else {
@@ -110,7 +112,7 @@ function Initialize() {
     }
     var BudgetTest = false;
     while (BudgetTest === false) {
-        Budget = prompt("What is your budget for this month?");
+        Budget = MoneyLeft = prompt("What is your budget for this month?");
         if(isNaN(Budget)) {
             window.alert("Invalid Input, please enter a number.");
         } else {
@@ -118,6 +120,7 @@ function Initialize() {
         }
     }
     window.alert(`Hello, ${FirstName} ${LastName}. Your projected income for this month is $${MonthlyIncome}. You have set your budget at $${Budget}.`);
+set = true;
 }
 
 function InputBills() {
@@ -171,6 +174,7 @@ function InputTransactions() {
                     window.alert("Invalid Input, please enter a number.");
                 } else {
                     TransactionTest = true;
+                    
                 }
             }
             var TRCategoryTest = false;
@@ -204,6 +208,7 @@ function InputTransactions() {
                 }
             }
             window.alert(`You have input a Transaction for ${TransactionTitle} that cost you $${TransactionCost}.`);
+            MoneyLeft -= TransactionCost;
             ArrayPositionTracker++;
             var Continue = prompt("Are there any more Transactions you would like to input?");
             var ContinueCaps = Continue.toUpperCase();
@@ -240,6 +245,17 @@ function CalculateMonthlySum() {
         }
     }
     window.alert(MonthlySum);
+}
+
+function CalculateMoneyLeft() {
+    MonthlySum = 0;
+    for (var i = 0; i < InputArray.length; i++){
+        let temp = parseFloat(InputArray[i][2]);
+        if(isNaN(temp) === false){
+            MonthlySum += temp;
+        }
+    }
+    MoneyLeft = Budget - MonthlySum;
 }
 
 function CalculateCategorySums() {
@@ -296,6 +312,7 @@ chart.data(data);
 // display the chart in the container
 chart.container('container');
 chart.draw();
+MonthDisplayed = true;
 }
 
 function PastChart(Stuff)
@@ -328,6 +345,84 @@ function PastChart(Stuff)
         PastDisplayed = true;
     }
 }
+
+function FindHighestAmount()
+{
+    var HighestNum = 0;
+    for (var i = 0; i < InputArray.length; i++)
+    {
+        if (InputArray[i][2] > HighestNum)
+        {
+        HighestNum = InputArray[i][2];
+        }
+    }
+    return HighestNum;
+}
+
+function FindHighestCategory(Amount)
+{
+    var HighestCat = "null";
+    for (var i = 0; i < InputArray.length; i++)
+    {
+        if (Amount === InputArray[i][2])
+        {
+        HighestCat = InputArray[i][5];
+        }
+    }
+    return HighestCat;
+}
+
+function FinancialAdvise(){
+    if (MoneyLeft === undefined)
+    {
+        if (set===true)
+        {
+            CalculateMoneyLeft();       
+        }
+        else
+        window.alert(`No data, please go through the Initialize button.`);
+    }
+    if(MoneyLeft > 0 && MoneyLeft < 100)
+    {
+        if (MoneyLeft===69)
+        {window.alert("Nice");}
+        window.alert(`You're doing good on savings. You have $${MoneyLeft} extra to spend or save as you choose this month.`);
+    }
+    else if (MoneyLeft >= 100 && MoneyLeft < 250)
+    {
+        window.alert(`You're on the right track. You have $${MoneyLeft} extra. Consider saving that money or treating yourself at a place of your choosing.`);
+    }
+    else if (MoneyLeft >= 250 && MoneyLeft < 500)
+    {
+        window.alert(`You're doing a great job. You have $${MoneyLeft} extra. Consider saving for a big ticket item or buying an item of your choice.`);;
+    }
+    else if (MoneyLeft >= 500 && MoneyLeft < 1000)
+    {
+        window.alert(`You're really good at this budget stuff. You have $${MoneyLeft} extra. Consider a possible investment in a company of your choice.`);
+    }
+    else if (MoneyLeft >= 1000)
+    {
+        window.alert(`You've smashed it out of the park this month. You have $${MoneyLeft} extra. Seriously consider an investment in stocks.`);
+    }        
+    else if (MoneyLeft<=0)
+    {
+        var HighestAmount = FindHighestAmount();
+        var HighestCategory = FindHighestCategory(HighestAmount);
+    window.alert(`You're broke, but you can improve. Youre highest spending is $${HighestAmount} among the ${HighestCategory} category.`);
+     if (HighestCategory === "Food")
+        window.alert(`In the future, consider eating out less.`)
+    else if (HighestCategory === "Entertainment")
+        window.alert("In the future, consider spending less on entertainment");
+    else if (HighestCategory === "Transportation")
+        window.alert("Try and find a cheaper gas station.");
+    else if (HighestCategory === "Education")
+        window.alert("In the future, consider cutting down on Food, Entertainment, or transportation costs.")
+    else if (HighestCategory === "Other")
+        window.alert("In the future, try spending less money of miscellaneous expenses.");
+    }
+}
+    
+
 
 </script>
 <header>
@@ -369,6 +464,8 @@ function PastChart(Stuff)
         <br>
         <br>
         <input type ="button" onclick = "PastChart(PastSixMonths)" value = "Display Past Spending.">
+        <br>
+        <input type ="button" onclick = "FinancialAdvise()" value = "Overview of this month's spending.">
         <br>
         <div id="container" style="width: 100%; height: 100%"></div>  <!--graph code-->
         <br>
