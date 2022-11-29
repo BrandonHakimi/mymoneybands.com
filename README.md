@@ -1,5 +1,5 @@
 # mymoneybands
-INTRO SE PROJ
+COMP 380 INTRO SE PROJ
 
 Scrum Master: Christopher Araklisianos
 Tech Lead: Brandon Hakimi
