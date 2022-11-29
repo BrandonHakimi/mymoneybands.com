@@ -29,6 +29,7 @@ var PastDisplayed = false;
 var Temp;
 var set = false;
 var MonthDisplayed = false;
+var Initialized = false;
 
 var MonthlySum;
 
@@ -99,6 +100,10 @@ function checkCookie() {
 //********************************************************************************************************************************************************
 
 function Initialize() {
+    if (Initialized === true) {
+        window.alert("You have already initialized this month's data. Try using the 'Input Transactions' and 'Input Bills' buttons to start inputting your finances!");
+        return;
+    }
     FirstName = prompt("What is your first name?");
     LastName = prompt("What is your last name?");
     var MonthlyTest = false;
@@ -126,7 +131,8 @@ function Initialize() {
         }
     }
     window.alert(`Hello, ${FirstName} ${LastName}. Your projected income for this month is $${MonthlyIncome}. You have set your budget at $${Budget}.`);
-set = true;
+    set = true;
+    Initialized = true;
 }
 
 function InputBills() {
@@ -358,79 +364,62 @@ function PastChart(Stuff)
     }
 }
 
-function FindHighestAmount()
-{
+function FindHighestAmount() {
     var HighestNum = 0;
-    for (var i = 0; i < InputArray.length; i++)
-    {
-        if (InputArray[i][2] > HighestNum)
-        {
-        HighestNum = InputArray[i][2];
+    for (var i = 0; i < InputArray.length; i++) {
+        if (InputArray[i][2] > HighestNum) {
+            HighestNum = InputArray[i][2];
         }
     }
     return HighestNum;
 }
 
-function FindHighestCategory(Amount)
-{
+function FindHighestCategory(Amount) {
     var HighestCat = "null";
-    for (var i = 0; i < InputArray.length; i++)
-    {
-        if (Amount === InputArray[i][2])
-        {
-        HighestCat = InputArray[i][5];
+    for (var i = 0; i < InputArray.length; i++) {
+        if (Amount === InputArray[i][2]) {
+            HighestCat = InputArray[i][5];
         }
     }
     return HighestCat;
 }
 
 function FinancialAdvise(){
-    if (MoneyLeft === undefined)
-    {
-        if (set===true)
-        {
+    if (MoneyLeft === undefined) {
+        if (set===true) {
             CalculateMoneyLeft();       
+        } else {
+            window.alert(`You do not have any data with MyMoneyBands, please select the Initialize button first.`);
         }
-        else
-        window.alert(`No data, please go through the Initialize button.`);
     }
-    if(MoneyLeft > 0 && MoneyLeft < 100)
-    {
-        if (MoneyLeft===69)
-        {window.alert("Nice");}
+    if(MoneyLeft > 0 && MoneyLeft < 100) {
+        if (MoneyLeft===69) {
+            window.alert("Nice");
+        }
         window.alert(`You're doing good on savings. You have $${MoneyLeft} extra to spend or save as you choose this month.`);
-    }
-    else if (MoneyLeft >= 100 && MoneyLeft < 250)
-    {
+    } else if (MoneyLeft >= 100 && MoneyLeft < 250) {
         window.alert(`You're on the right track. You have $${MoneyLeft} extra. Consider saving that money or treating yourself at a place of your choosing.`);
-    }
-    else if (MoneyLeft >= 250 && MoneyLeft < 500)
-    {
+    } else if (MoneyLeft >= 250 && MoneyLeft < 500) {
         window.alert(`You're doing a great job. You have $${MoneyLeft} extra. Consider saving for a big ticket item or buying an item of your choice.`);;
-    }
-    else if (MoneyLeft >= 500 && MoneyLeft < 1000)
-    {
+    } else if (MoneyLeft >= 500 && MoneyLeft < 1000) {
         window.alert(`You're really good at this budget stuff. You have $${MoneyLeft} extra. Consider a possible investment in a company of your choice.`);
-    }
-    else if (MoneyLeft >= 1000)
-    {
+    } else if (MoneyLeft >= 1000) {
         window.alert(`You've smashed it out of the park this month. You have $${MoneyLeft} extra. Seriously consider an investment in stocks.`);
-    }        
-    else if (MoneyLeft <= 0)
-    {
+    } else if (MoneyLeft <= 0) {
         var HighestAmount = FindHighestAmount();
         var HighestCategory = FindHighestCategory(HighestAmount);
-    window.alert(`You're broke, but you can improve. Your highest spending is $${HighestAmount}, in the ${HighestCategory} category.`);
-     if (HighestCategory === "Food")
-        window.alert(`In the future, consider eating out less.`)
-    else if (HighestCategory === "Entertainment")
-        window.alert("In the future, consider spending less on entertainment");
-    else if (HighestCategory === "Transportation")
-        window.alert("Try and find a cheaper gas station.");
-    else if (HighestCategory === "Education")
-        window.alert("In the future, consider cutting down on Food, Entertainment, or transportation costs.")
-    else if (HighestCategory === "Other")
-        window.alert("In the future, try spending less money of miscellaneous expenses.");
+        window.alert(`You're broke, but you can improve. Your highest spending is $${HighestAmount}, in the ${HighestCategory} category.`);
+        if (HighestCategory === "Food") {
+            window.alert(`In the future, consider eating out less.`);
+        } else if (HighestCategory === "Entertainment") {
+            window.alert("In the future, consider spending less on entertainment");
+        } else if (HighestCategory === "Transportation") {
+            window.alert("Try and find a cheaper gas station.");
+        } else if (HighestCategory === "Education") {
+            window.alert("In the future, consider cutting down on Food, Entertainment, or transportation costs.");
+        } else if (HighestCategory === "Other") {
+            window.alert("In the future, try spending less money of miscellaneous expenses.");
+        }
     }
 }
 
