@@ -104,8 +104,11 @@ function Initialize() {
     var MonthlyTest = false;
     while (MonthlyTest === false) {
         MonthlyIncome = prompt("What is your Projected Income for this month?");
+        MonthlyIncomeParse = parseFloat(MonthlyIncome);
         if(isNaN(MonthlyIncome)) {
             window.alert("Invalid Input, please enter a number.");
+        } else if (MonthlyIncomeParse < 0) {
+            window.alert("Invalid Input, please enter a positive number.");
         } else {
             MonthlyTest = true;
         }
@@ -113,8 +116,11 @@ function Initialize() {
     var BudgetTest = false;
     while (BudgetTest === false) {
         Budget = MoneyLeft = prompt("What is your budget for this month?");
+        BudgetParse = parseFloat(Budget);
         if(isNaN(Budget)) {
             window.alert("Invalid Input, please enter a number.");
+        } else if (BudgetParse < 0) {
+            window.alert("Invalid Input, please enter a positive number.");
         } else {
             BudgetTest = true;
         }
@@ -133,8 +139,11 @@ function InputBills() {
             var BillTest = false;
             while (BillTest === false) {
                 BillValue = prompt("What is the Payment Amount for this Bill?");
+                BillValueParse = parseFloat(BillValue);
                 if(isNaN(BillValue)) {
                     window.alert("Invalid Input, please enter a number.");
+                } else if (BillValueParse < 0) {
+                    window.alert("Invalid Input, please enter a positive number.");
                 } else {
                     BillTest = true;
                 }
@@ -170,8 +179,11 @@ function InputTransactions() {
             var TransactionTest = false;
             while (TransactionTest === false) {
                 TransactionCost = prompt("How much did this transaction cost?");
+                TransactionCostParse = parseFloat(TransactionCost);
                 if(isNaN(TransactionCost)) {
                     window.alert("Invalid Input, please enter a number.");
+                } else if (TransactionCostParse < 0) {
+                    window.alert("Invalid Input, please enter a positive number.");
                 } else {
                     TransactionTest = true;
                     
