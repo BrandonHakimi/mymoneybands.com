@@ -99,16 +99,12 @@ function checkCookie() {
 
 function CookieArrayTest() {
     var backup = JSON.stringify(InputArray);
-    window.alert(backup);
     setCookie('BackupInput', backup);
-    window.alert("hi");
 }
 
 function RetrieveArrayTest() {
-    window.alert("hi");
     var backup2 = getCookie('BackupInput');
     var BackupInputArray = JSON.parse(backup2);
-    window.alert("hi");
     for (var i = 0; i < BackupInputArray.length; i++) {
         for (var j = 0; j < 6; j++) {
             window.alert(`${i},${j}: ${BackupInputArray[i][j]}`);
@@ -126,13 +122,34 @@ function TestBackUpInputArray() {
 
 //********************************************************************************************************************************************************
 
+function UploadData() {
+    if (MonthlyIncome === undefined) {
+        window.alert("You do not have any data to upload with MyMoneyBands, please select the Initialize button first.");
+        return;
+    } else {
+        var backup = JSON.stringify(InputArray);
+        setCookie('BackupInput', backup);
+    }
+    window.alert("Data uploaded!");
+}
+
+function DownloadData() {
+    var MonthlyIncomeTemp = getCookie("MonthlyIncome");
+    var BudgetTemp = getCookie("Budget");
+    MonthlyIncome = MonthlyIncomeTemp;
+    Budget = Budget = BudgetTemp;
+    window.alert("Data downloaded!");
+}
+
+//********************************************************************************************************************************************************
+
 function Initialize() {
     if (Initialized === true) {
         window.alert("You have already initialized this month's data. Try using the 'Input Transactions' and 'Input Bills' buttons to start inputting your finances!");
         return;
     }
-    FirstName = prompt("What is your first name?");
-    LastName = prompt("What is your last name?");
+    //FirstName = prompt("What is your first name?");
+    //LastName = prompt("What is your last name?");
     var MonthlyTest = false;
     while (MonthlyTest === false) {
         MonthlyIncome = prompt("What is your Projected Income for this month?");
@@ -157,14 +174,20 @@ function Initialize() {
             BudgetTest = true;
         }
     }
-    window.alert(`Hello, ${FirstName} ${LastName}. Your projected income for this month is $${MonthlyIncome}. You have set your budget at $${Budget}.`);
+    //window.alert(`Hello, ${FirstName} ${LastName}. Your projected income for this month is $${MonthlyIncome}. You have set your budget at $${Budget}.`);
+    window.alert(`Your projected income for this month is $${MonthlyIncome}. You have set your budget at $${Budget}.`);
+    setCookie('MonthlyIncome', MonthlyIncome);
+    setCookie('Budget', Budget);
     set = true;
     Initialized = true;
 }
 
 function InputBills() {
     if (MonthlyIncome === undefined) {
-        window.alert("You do not have any data with MyMoneyBands, please select the Initialize button first.");
+        let MonthlyIncomeTemp = getCookie("MonthlyIncome");
+        if (MonthlyIncomeTemp === NULL) {
+            window.alert("You do not have any data with MyMoneyBands, please select the Initialize button first.");
+        }
     } else {
         do {
             var BillName = prompt("Who is this Bill due to? (Company or Label)");
@@ -332,6 +355,17 @@ function Calculate() {
 }
 
 function DisplayGraph() {   
+    if (MonthlyIncome === undefined) {
+        var MonthlyIncomeTemp = getCookie("MonthlyIncome");
+        var BudgetTemp = getCookie("Budget");
+        if (MonthlyIncomeTemp === "") {
+            window.alert("You do not have any data with MyMoneyBands, please select the Initialize button first.");
+            return;
+        } else {
+            MonthlyIncome = MonthlyIncomeTemp;
+            Budget = Budget = BudgetTemp;
+        }
+    }
     Calculate();
     Chart();
 }
@@ -628,29 +662,31 @@ function recurringMain(){
     <h1>Good evening, Scrum</h1>
     <nav>
         <br>
+        <input type ="button" onclick = "DownloadData()" value = "Download Data: use this button if you are a returning user!">
+        <br>
+        <br>
         <input type ="button" onclick = "Initialize()" value = "Initialize">
-        <input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">
+        <!--<input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">-->
         <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
         <input type ="button" onclick = "InputBills()" value = "Input Bills">
         <input type ="button" onclick = "recurringMain()" value = "RecurTest">
         <br>
         <br>
-        <input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">
-        <input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">
-        <input type ="button" onclick = "TestBackUpInputArray()" value = "TestBackUpInputArray (Print all)">
-        <input type ="button" onclick = "CookieArrayTest()" value = "CookieArrayTestUpload">
-        <input type ="button" onclick = "RetrieveArrayTest()" value = "CookieArrayTestDownload">
-        <br>
-        <br>
-        <br>
+        <!--<input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">-->
+        <!--<input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">-->
+        <!--<input type ="button" onclick = "TestBackUpInputArray()" value = "TestBackUpInputArray (Print all)">-->
+        <!--<input type ="button" onclick = "CookieArrayTest()" value = "CookieArrayTestUpload">-->
+        <!--<input type ="button" onclick = "RetrieveArrayTest()" value = "CookieArrayTestDownload">-->
         <input type ="button" onclick = "DisplayGraph()" value = "Display this Month's Spending">
         <br>
         <br>
-        <input type ="button" onclick = "PastChart(PastSixMonths)" value = "Display Past Spending.">
+        <input type ="button" onclick = "PastChart(PastSixMonths)" value = "Display Past Spending">
         <br>
         <br>
-        <input type ="button" onclick = "FinancialAdvise()" value = "Overview of this month's spending.">
+        <input type ="button" onclick = "FinancialAdvise()" value = "Overview of this month's spending">
         <br>
+        <br>
+        <input type ="button" onclick = "UploadData()" value = "Upload Data: use this button before you leave the page!">
         <br>
         <div id="container" style="width: 100%; height: 100%"></div>  <!--graph code-->
         <br>
