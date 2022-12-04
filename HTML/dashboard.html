@@ -97,6 +97,33 @@ function checkCookie() {
     Name = user;
 }
 
+function CookieArrayTest() {
+    var backup = JSON.stringify(InputArray);
+    window.alert(backup);
+    setCookie('BackupInput', backup);
+    window.alert("hi");
+}
+
+function RetrieveArrayTest() {
+    window.alert("hi");
+    var backup2 = getCookie('BackupInput');
+    var BackupInputArray = JSON.parse(backup2);
+    window.alert("hi");
+    for (var i = 0; i < BackupInputArray.length; i++) {
+        for (var j = 0; j < 6; j++) {
+            window.alert(`${i},${j}: ${BackupInputArray[i][j]}`);
+        }
+    }
+}
+
+function TestBackUpInputArray() {
+    for (var i = 0; i < BackupInputArray.length; i++) {
+        for (var j = 0; j < 6; j++) {
+            window.alert(`${i},${j}: ${BackupInputArray[i][j]}`);
+        }
+    }
+}
+
 //********************************************************************************************************************************************************
 
 function Initialize() {
@@ -610,6 +637,9 @@ function recurringMain(){
         <br>
         <input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">
         <input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">
+        <input type ="button" onclick = "TestBackUpInputArray()" value = "TestBackUpInputArray (Print all)">
+        <input type ="button" onclick = "CookieArrayTest()" value = "CookieArrayTestUpload">
+        <input type ="button" onclick = "RetrieveArrayTest()" value = "CookieArrayTestDownload">
         <br>
         <br>
         <br>
