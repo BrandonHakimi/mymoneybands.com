@@ -643,12 +643,23 @@ function compareCharges(charge1, charge2){
         }else return false
     }else return false;
 }
-function recurringMain(){
-    let result = compareCharges(testcharge1, testcharge2); // change these to desired charges you wish to evaluate
-    testcharge1.chg_recur = true;
-    testcharge2.chg_recur = true;
 
-    window.alert(testcharge1.chg_recur);
+// var newCharge = makeCharge("chg_amt chg_recipient chg_date chg_recur");
+// the function takes the data from inputarray and inserts it into new structs
+
+function importCharge(i){ // i is representative of InputArray[i][n]
+    let name = InputArray[i][1];
+    let cost = InputArray[i][2];
+    let date = InputArray[i][3];
+    let flag = InputArray[i][4];
+
+    var new_charge = new newCharge(cost, name, date, flag);
+    return new_charge;
+}
+
+function recurringMain(){
+    let v = importCharge(0);
+    window.alert(v.chg_amt);
 }
 
 //********************************************************************************************************************************************************
@@ -685,26 +696,8 @@ function recurringMain(){
         <!--<input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">-->
         <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
         <input type ="button" onclick = "InputBills()" value = "Input Bills">
-        <!--input type ="button" onclick = "recurringMain()" value = "RecurTest"-->
+        <input type ="button" onclick = "recurringMain()" value = "RecurTest">
         <br>
-
-        <div id="cookieNotice" class="light display-right" style="display: none;">
-            <div id="closeIcon" style="display: none;"></div>
-        </div>
-        <div class="title_wrap">
-            <h4>Cookie Consent</h4>
-        </div>
-        <div class="content-wrap">
-            <div class="msg-wrap">
-                <p>This website uses cookies. By continuing to use our website, you agree to our 
-                    <a style="color:#115cfa;" href="/privacy-policy">privacy policy</a>
-                </p>
-                <div class="btn-wrap">
-                    <button class="btn_primary" onclick="userCookieConsent();">Accept</button>
-                </div>
-            </div>
-        </div>
-
 
         <br>
         <!--<input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">-->
