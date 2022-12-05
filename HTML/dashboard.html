@@ -97,6 +97,22 @@ function checkCookie() {
     Name = user;
 }
 
+function clearCookie(n){
+    const day = new Date();
+    day.setTime(day.getTime()+(24*60*60*1000)); // one day ahead of current (HH MM SS MILI)
+    let expDate = "expires="+day.toUTCString();
+    document.cookie = n+"=;"+expDate+";path=/";
+}
+
+// small function that handles the 'consent to cookies' popup
+function userCookieConsent(){
+    clearCookie('user_consent');
+    setCookie('user_consent',1,30);
+    document.getElementById("cookieNotice").style.display="none";
+}
+
+
+
 function CookieArrayTest() {
     var backup = JSON.stringify(InputArray);
     setCookie('BackupInput', backup);
@@ -669,8 +685,27 @@ function recurringMain(){
         <!--<input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">-->
         <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
         <input type ="button" onclick = "InputBills()" value = "Input Bills">
-        <input type ="button" onclick = "recurringMain()" value = "RecurTest">
+        <!--input type ="button" onclick = "recurringMain()" value = "RecurTest"-->
         <br>
+
+        <div id="cookieNotice" class="light display-right" style="display: none;">
+            <div id="closeIcon" style="display: none;"></div>
+        </div>
+        <div class="title_wrap">
+            <h4>Cookie Consent</h4>
+        </div>
+        <div class="content-wrap">
+            <div class="msg-wrap">
+                <p>This website uses cookies. By continuing to use our website, you agree to our 
+                    <a style="color:#115cfa;" href="/privacy-policy">privacy policy</a>
+                </p>
+                <div class="btn-wrap">
+                    <button class="btn_primary" onclick="userCookieConsent();">Accept</button>
+                </div>
+            </div>
+        </div>
+
+
         <br>
         <!--<input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">-->
         <!--<input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">-->
