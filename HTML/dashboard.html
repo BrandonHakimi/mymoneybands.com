@@ -17,7 +17,6 @@
 var FirstName;
 var LastName;
 
-
 var Name;
 
 var MonthlyIncome;
@@ -49,7 +48,8 @@ const InputArray = [];
     //iterate over InputArray[i][4] for recurring flag for bills specifically
     //iterate over InputArray[i][5] for category it belongs to
 
-    const CategoryArray = [["Bills", 0, 0], 
+    const CategoryArray = 
+                       [["Bills", 0, 0], 
                        ["Food", 0, 0], 
                        ["Entertainment", 0, 0], 
                        ["Transportation", 0, 0], 
@@ -504,6 +504,9 @@ function FinancialAdvice(){
     This function exists to 'build' structs, so to speak.
     The entire recurring charges subsystem will rely on this faux data type.
     I've done this to homogenize the data that enters the system into a simple, stripped-down format.
+
+    Declaring a newCharge creates a new instance of the struct!
+    We can pass existing information into a new struct, or just insert our own manually.
 */
 
 function makeCharge(list){
@@ -516,24 +519,9 @@ function makeCharge(list){
     }return structBuilder;
 }
 
-/*
-    Declaring a newCharge creates a new instance of the struct discussed earlier!
-    We can pass existing information into a new struct, or just insert our own manually.
-*/
-
-var newCharge = makeCharge("chg_amt chg_recipient chg_date chg_recur");
-
-// Sandbag charges that can be used for rapid testing purposes
-var testcharge0 = new newCharge(500, 'ralphs', '2022-11-28', false);
-var testcharge1 = new newCharge(20, 'netflix', '2022-08-03', false);
-var testcharge2 = new newCharge(20, 'netflix', '2022-09-03', false);
+var newCharge = makeCharge("chg_name chg_cost chg_flag chg_mark");
 
 /*
-    This set of functions is organized spaghetti, just collapse them.
-    They're helper functions that return the difference in time between dates.
-    This is used to scan the possible recurrent intervals!
-*/
-
 function offsetSeconds(d1,d2){
     let milliseconds = d2-d1;
     let seconds = Math.floor((d2-d1)/1000)
@@ -578,24 +566,11 @@ function offsetMonths(d1,d2){
     let countmonths = (years*12) + (mdate2.getMonth() - mdate1.getMonth());
     return countmonths;
 }
+*/
 
 /*
-    This function will run through the possible situations where a charge counts as recurring.
-        - Day is offset by 1, month matches, year matches [DAILY]
-            - offsetDays == 1
-        - Day is offset by 7, month matches, year matches [WEEKLY]
-            - offsetDays == 7
-        - Day is offset by 14, month matches, year matches [BIWEEKLY]
-            - offsetDays == 14
-        - Day matches, month is offset by 1, year matches [MONTHLY]
-            - offsetMonths == 1
-        - Day matches, month is offset by 3, year matches [QUARTERLY]
-            - offsetMonths == 3
-        - Day matches, month is offset by 6, year matches [BIYEARLY]
-            - offsetMonths == 6
-        - Day matches, month matches, year is offset by 1 [YEARLY]
-            - offsetYears == 1
-*/
+
+Press F to pay respects.
 
 function compareDates(cdate1, cdate2){
     let date1 = new Date(cdate1.chg_date);
@@ -630,23 +605,75 @@ function compareDates(cdate1, cdate2){
     else return false
 }
 
+*/
+
 function compareCharges(charge1, charge2){
-    let datesCheck = compareDates(charge1, charge2);
+    //let datesCheck = compareDates(charge1, charge2);
 
     if (charge1.chg_recipient == charge2.chg_recipient){
-        if (datesCheck == true){
+        //if (datesCheck == true){
             if (charge1.chg_amt == charge2.chg_amt){
+                charge1.chg_flag = true;
+                charge2.chg_flag = true;
                 return true;
             }else return false;
-        }else return false
+        //}else return false
     }else return false;
 }
-function recurringMain(){
-    let result = compareCharges(testcharge1, testcharge2); // change these to desired charges you wish to evaluate
-    testcharge1.chg_recur = true;
-    testcharge2.chg_recur = true;
 
-    window.alert(testcharge1.chg_recur);
+// converts InputArray[i][n] to charge useable in my system
+function importCharge(i){
+        let name = InputArray[i][1];
+        let cost = InputArray[i][2];
+      //let date = InputArray[i][3];
+        let flag = InputArray[i][4];
+        let mark = false;
+
+    var new_charge = new newCharge(name, cost, flag, mark);
+    return new_charge;
+}
+
+// mostly a debug function
+function printCharge(charge){
+    window.alert(charge.chg_name +" "+ charge.chg_cost +" "+ charge.chg_flag +" "+ charge.chg_mark);
+}
+
+// main handler
+function recurringMain(){
+    let n = InputArray.length;
+    let chargeArray = [];
+
+    if (n<2) window.alert("Please input at least two transactions before using the recursive charge checker.")
+    else{
+        for (var i=0; i<n; i++){
+            let scrum = importCharge(i);
+            chargeArray.push(scrum);
+        }
+    }
+
+    let recurringCount = 0;
+    // function that iterates charges PROPERLY
+    // it shouldnt compare chargeArray[0] with itself
+
+    // std i, j nested for loop...
+    // logic to ensure i != j in check
+    // logic to 'mark' checked array location as we go
+    // ensure inverse of checked marks (j, i) are not checked
+
+    for (let i=0; i<n; i++){
+        for (let j=0; j<n; j++){
+            if (i!=j && chargeArray[i].chg_mark==false && chargeArray[j].chg_mark==false){
+                let tempcheck = compareCharges(chargeArray[i], chargeArray[j]);
+                if (tempcheck == true){
+                    chargeArray[i].chg_mark=true;
+                    chargeArray[j].chg_mark=true;
+                    recurringCount += 1;
+                }
+            }
+        }
+    }
+    
+    window.alert(recurringCount+" recurring charges were detected in this month's spending.");
 }
 
 //********************************************************************************************************************************************************
@@ -668,27 +695,7 @@ function recurringMain(){
         <!--<input type ="button" onclick = "checkCookie()" value = "Cookie Test Button">-->
         <input type ="button" onclick = "InputTransactions()" value = "Input Transactions">
         <input type ="button" onclick = "InputBills()" value = "Input Bills">
-        <!--input type ="button" onclick = "recurringMain()" value = "RecurTest"-->
         <br>
-
-        <div id="cookieNotice" class="light display-right" style="display: none;">
-            <div id="closeIcon" style="display: none;"></div>
-        </div>
-        <div class="title_wrap">
-            <h4>Cookie Consent</h4>
-        </div>
-        <div class="content-wrap">
-            <div class="msg-wrap">
-                <p>This website uses cookies. By continuing to use our website, you agree to our 
-                    <a style="color:#115cfa;" href="/privacy-policy">privacy policy</a>
-                </p>
-                <div class="btn-wrap">
-                    <button class="btn_primary" onclick="userCookieConsent();">Accept</button>
-                </div>
-            </div>
-        </div>
-
-
         <br>
         <!--<input type ="button" onclick = "TestInputArray()" value = "TestInputArray (Print all)">-->
         <!--<input type ="button" onclick = "TestCategoryArray()" value = "TestCategoryArray (Print all)">-->
@@ -701,7 +708,10 @@ function recurringMain(){
         <input type ="button" onclick = "PastChart(PastSixMonths)" value = "Display Past Spending">
         <br>
         <br>
-        <input type ="button" onclick = "FinancialAdvice()" value = "Overview of this month's spending">
+        <input type ="button" onclick = "recurringMain()" value = "Check for Recurring Charges">
+        <br>
+        <br>
+        <input type ="button" onclick = "FinancialAdvise()" value = "Overview of this month's spending">
         <br>
         <br>
         <input type ="button" onclick = "UploadData()" value = "Upload Data: use this button before you leave the page!">
@@ -724,4 +734,3 @@ function recurringMain(){
     <script src="/JS/home.js"></script>
 </body>
 </html>
-
