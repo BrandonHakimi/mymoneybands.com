@@ -519,7 +519,7 @@ function makeCharge(list){
     }return structBuilder;
 }
 
-var newCharge = makeCharge("chg_name chg_cost chg_flag");
+var newCharge = makeCharge("chg_name chg_cost chg_flag chg_mark");
 
 /*
 function offsetSeconds(d1,d2){
@@ -608,11 +608,13 @@ function compareDates(cdate1, cdate2){
 */
 
 function compareCharges(charge1, charge2){
-    let datesCheck = compareDates(charge1, charge2);
+    //let datesCheck = compareDates(charge1, charge2);
 
     if (charge1.chg_recipient == charge2.chg_recipient){
         //if (datesCheck == true){
             if (charge1.chg_amt == charge2.chg_amt){
+                charge1.chg_flag = true;
+                charge2.chg_flag = true;
                 return true;
             }else return false;
         //}else return false
@@ -625,14 +627,15 @@ function importCharge(i){
         let cost = InputArray[i][2];
       //let date = InputArray[i][3];
         let flag = InputArray[i][4];
+        let mark = false;
 
-    var new_charge = new newCharge(name, cost, flag);
+    var new_charge = new newCharge(name, cost, flag, mark);
     return new_charge;
 }
 
 // mostly a debug function
 function printCharge(charge){
-    window.alert(charge.chg_name +" "+ charge.chg_cost +" "+ charge.chg_flag)
+    window.alert(charge.chg_name +" "+ charge.chg_cost +" "+ charge.chg_flag +" "+ charge.chg_mark);
 }
 
 // main handler
@@ -648,6 +651,7 @@ function recurringMain(){
         }
     }
 
+    let recurringCount = 0;
     // function that iterates charges PROPERLY
     // it shouldnt compare chargeArray[0] with itself
 
@@ -656,8 +660,20 @@ function recurringMain(){
     // logic to 'mark' checked array location as we go
     // ensure inverse of checked marks (j, i) are not checked
 
-    let recurringCount = 0;
-    window.alert("95% done");
+    for (let i=0; i<n; i++){
+        for (let j=0; j<n; j++){
+            if (i!=j && chargeArray[i].chg_mark==false && chargeArray[j].chg_mark==false){
+                let tempcheck = compareCharges(chargeArray[i], chargeArray[j]);
+                if (tempcheck == true){
+                    chargeArray[i].chg_mark=true;
+                    chargeArray[j].chg_mark=true;
+                    recurringCount += 1;
+                }
+            }
+        }
+    }
+    
+    window.alert(recurringCount+" recurring charges were detected in this month's spending.");
 }
 
 //********************************************************************************************************************************************************
