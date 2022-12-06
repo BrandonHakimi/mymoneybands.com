@@ -14,7 +14,6 @@ h4{
 
 p{
     text-align: center; 
-    padding-top: 20px;
     font-size: 15px;
 }
 
@@ -56,7 +55,7 @@ input[type="button"]:hover{
 
 .signup-box{
     width: 360px;
-    height: 620px;
+    height: 600px;
     margin: auto;
     margin-top: 20px;
     background-color: white;
@@ -75,7 +74,6 @@ input[type="button"]:hover{
     text-align: center;
     color: white;
     font-size: 15px; 
-    margin-top: -10px;
 }
 
 .para-2 a{

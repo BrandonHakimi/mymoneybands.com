@@ -24,8 +24,12 @@ h3{
     text-align: center;
 }
 
+input[type="button"]{
+    font-size: 75px;
+    width: fit-content;
+}
+
 input[type="button"]:hover{
-    background-color: whitesmoke;
     cursor: pointer;
 }
 
@@ -36,7 +40,6 @@ input[type="button"]:hover{
 }
 
 .menu{
-    border-style: ridge;
     border-color: whitesmoke;
     border-top-width: 0px;
     border-left-width: 0px;

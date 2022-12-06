@@ -11,18 +11,37 @@
     <div class="signup-box">
         <h1>Sign Up</h1>
         <h4>It's free and only takes a minute</h4>
-        <form>
-            <label>First Name</label>
-            <input type="text" placeholder="John" autocomplete="off" class="first-name" required>
-            <label>Last Name</label>
-            <input type="text" placeholder="Doe" autocomplete="off" class="last-name" required>
-            <label>Email</label>
-            <input type="email" placeholder="johndoe@gmail.com" autocomplete="off" class="email" required>
-            <label>Password</label>
-            <input type="password" placeholder="password" autocomplete="off" class="password" required>
-            <label>Confirm Password</label>
-            <input type="confirm-password" placeholder="confirm password" autocomplete="off" class="email" required>
-            <a href="./login.html"><input type="button" value="Submit"></a>
+        <form action = "/PHP/signup-process.php" method="post" novalidate>
+
+            <div>
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" placeholder="John" autocomplete="off" name="fname" required>
+            </div>
+
+            <div>
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" placeholder="Doe" autocomplete="off" name="lname" required>
+            </div>
+
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="johndoe@gmail.com" autocomplete="off" name="email" required>
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" autocomplete="off" name="password" required>
+            </div>
+
+            <div>
+                <label for ="cpassword">Confirm Password</label>
+                <input type="password" id="cpassword" autocomplete="off" name="cpassword" required>
+            </div>
+
+            <a href="./login.html">
+                <input type="button" value="Submit">
+            </a>
+
         </form>
         <p>By clicking the Sign Up button, you agree to our <br>
         <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
