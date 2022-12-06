@@ -25,6 +25,7 @@ h3{
 }
 
 input[type="button"]{
+    background-color: whitesmoke;
     font-size: 25px;
     width: fit-content;
 }
