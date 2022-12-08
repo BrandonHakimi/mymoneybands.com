@@ -53,9 +53,21 @@ input[type="button"]:hover{
     cursor: pointer;
 }
 
+.welcome-box{
+    width: 700px;
+    display: inline-block;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+    color: whitesmoke;
+    padding-right: 100px;
+    padding-left: 50px;
+    transform: translateY(-15%);
+}
+
 .signup-box{
+    display: inline-block;
     width: 360px;
-    height: 600px;
+    height: 615px;
     margin: auto;
     margin-top: 20px;
     background-color: white;
@@ -63,14 +75,18 @@ input[type="button"]:hover{
 }
 
 .login-box{
+    display: inline-block;
     width: 360px;
-    height: 280px;
+    height: 300px;
     margin: auto;
+    margin-top: 100px;
     border-radius: 3px;
     background-color: white;
 }
 
 .para-2{
+    margin-left: 585px;
+    margin-bottom: 600px;
     text-align: center;
     color: white;
     font-size: 15px; 
@@ -78,4 +94,8 @@ input[type="button"]:hover{
 
 .para-2 a{
     color: whitesmoke;
+}
+
+.para-2 a:hover{
+    color: white;
 }
