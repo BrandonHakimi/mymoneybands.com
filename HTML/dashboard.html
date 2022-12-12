@@ -116,12 +116,13 @@ function CookieArrayTest() {
     setCookie('BackupInput', backup);
 }
 
-function RetrieveArrayTest() {
+function RetrieveArray() {
     var backup2 = getCookie('BackupInput');
     var BackupInputArray = JSON.parse(backup2);
+    //TestBackUpInputArray()
     for (var i = 0; i < BackupInputArray.length; i++) {
         for (var j = 0; j < 6; j++) {
-            window.alert(`${i},${j}: ${BackupInputArray[i][j]}`);
+            InputArray[i][j] = BackupInputArray[i][j];
         }
     }
 }
@@ -152,6 +153,7 @@ function DownloadData() {
     var BudgetTemp = getCookie("Budget");
     MonthlyIncome = MonthlyIncomeTemp;
     Budget = Budget = BudgetTemp;
+    RetrieveArray()
     window.alert("Data downloaded!");
 }
 
